@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Smarthome</string>
+    <string name="temperature">温度：</string>
+    <string name="humidity">湿度：</string>
+    <string name="conditioner_mode">手动控制空调</string>
+    <string name="yugang_level">浴缸水位</string>
+    <string name="left_book">左书架：</string>
+    <string name="right_book">右书架：</string>
+</resources>
