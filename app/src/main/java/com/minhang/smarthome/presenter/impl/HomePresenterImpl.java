@@ -27,6 +27,7 @@ public class HomePresenterImpl implements HomePresenter {
       public void getResult(String result) {
         homeViewPresenter.setTemperature(getTemperatureFromResult(result));
         homeViewPresenter.setHumidity(getHumidityFromResult(result));
+        homeViewPresenter.hideLoadingProgress();
       }
     });
   }
@@ -47,6 +48,7 @@ public class HomePresenterImpl implements HomePresenter {
         homeViewPresenter.setBathLevel(getBathLevelFromResult(result));
         homeViewPresenter.setLeftBook(getLeftBookFromResult(result));
         homeViewPresenter.setRightBook(getRightBookFromResult(result));
+        homeViewPresenter.hideLoadingProgress();
       }
     });
   }
