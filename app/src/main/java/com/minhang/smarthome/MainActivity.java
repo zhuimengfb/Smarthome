@@ -2,10 +2,10 @@ package com.minhang.smarthome;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -16,6 +16,7 @@ import com.minhang.smarthome.viewpresenter.HomeViewPresenter;
 
 public class MainActivity extends AppCompatActivity implements HomeViewPresenter {
 
+  private SwipeRefreshLayout swipeRefreshLayout;
   private TextView temperatureTextView;
   private TextView humidityTextView;
   private TextView leftBookTextView;
@@ -23,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements HomeViewPresenter
   private Switch conditionerModeSwitch;
   private SeekBar conditionerLevelSeekBar;
   private SeekBar bathLevelSeekBar;
-  private ProgressBar loadingProgressBar;
   private SharedPreferences sharedPreferences;
   private HomePresenter homePresenter = new HomePresenterImpl(this);
 
@@ -81,7 +81,13 @@ public class MainActivity extends AppCompatActivity implements HomeViewPresenter
 
       }
     });
-
+    swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override
+      public void onRefresh() {
+        homePresenter.getTemperatureAndHumidity();
+        homePresenter.getBathAndBook();
+      }
+    });
   }
 
 
@@ -95,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements HomeViewPresenter
   }
 
   private void initView() {
+    swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
     temperatureTextView = (TextView) findViewById(R.id.tv_temperature_number);
     humidityTextView = (TextView) findViewById(R.id.tv_humidity_number);
     leftBookTextView = (TextView) findViewById(R.id.tv_left_book_text);
@@ -102,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements HomeViewPresenter
     conditionerModeSwitch = (Switch) findViewById(R.id.s_air_conditioner);
     conditionerLevelSeekBar = (SeekBar) findViewById(R.id.sb_conditioner_level);
     bathLevelSeekBar = (SeekBar) findViewById(R.id.sb_bath_level);
-    loadingProgressBar = (ProgressBar) findViewById(R.id.pb_loading);
   }
 
   @Override
@@ -159,11 +165,11 @@ public class MainActivity extends AppCompatActivity implements HomeViewPresenter
 
   @Override
   public void showLoadingProgress() {
-    loadingProgressBar.setVisibility(View.VISIBLE);
+    swipeRefreshLayout.setRefreshing(true);
   }
 
   @Override
   public void hideLoadingProgress() {
-    loadingProgressBar.setVisibility(View.GONE);
+    swipeRefreshLayout.setRefreshing(false);
   }
 }

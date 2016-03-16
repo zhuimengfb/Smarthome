@@ -10,6 +10,10 @@ public interface HomeModelPresenter {
 
   void getBathAndBook(GetBathAndBookCallBack callBack);
 
+  void setContainerLevel(int level);
+
+  void setBathLevel(int level);
+
   interface GetBathAndBookCallBack {
     void getResult(String result);
   }

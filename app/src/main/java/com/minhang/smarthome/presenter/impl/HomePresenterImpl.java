@@ -52,25 +52,65 @@ public class HomePresenterImpl implements HomePresenter {
   }
 
   private int getBathLevelFromResult(String result) {
-    return 0;
+    int level = 0;
+    if (result.substring(5, 6).equals("1")) {
+      switch (result.substring(6, 8)) {
+        case "00":
+          level = 0;
+          break;
+        case "01":
+          level = 1;
+          break;
+        case "10":
+          level = 2;
+          break;
+        case "11":
+          level = 3;
+          break;
+        default:
+          break;
+      }
+    }
+    return level;
   }
 
   private String getLeftBookFromResult(String result) {
-    return "";
+    return getBookFromResult(result.substring(1, 3));
   }
 
   private String getRightBookFromResult(String result) {
-    return "";
+    return getBookFromResult(result.substring(3, 5));
+  }
+
+  private String getBookFromResult(String result) {
+    String temp = "";
+    switch (result) {
+      case "00":
+        temp = "没有书";
+        break;
+      case "01":
+        temp = "BOOK01";
+        break;
+      case "10":
+        temp = "BOOK02";
+        break;
+      case "11":
+        temp = "无法识别";
+        break;
+      default:
+        break;
+    }
+    return temp;
   }
 
   @Override
   public void setConditionerLevel(int level) {
-
+    homeModelPresenter.setContainerLevel(level);
   }
 
   @Override
   public void setBathLevel(int level) {
-
+    homeModelPresenter.setBathLevel(level);
   }
 
   @Override
