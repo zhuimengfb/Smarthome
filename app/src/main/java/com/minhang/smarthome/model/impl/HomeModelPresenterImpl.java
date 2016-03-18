@@ -6,26 +6,22 @@ import com.zhy.http.okhttp.callback.StringCallback;
 
 import okhttp3.Call;
 
-import java.io.IOException;
-
 /**
  * author: bo on 2016/3/14 16:11.
  * email: bofu1993@163.com
  */
 public class HomeModelPresenterImpl implements HomeModelPresenter {
 
-  private static final String BASE_URL = "";
-  private static final String TEMPERATURE_HUMIDITY_URL = BASE_URL + "";
-  private static final String BATH_BOOK_URL = BASE_URL + "";
-  private static final String SET_CONTAINER_URL = BASE_URL + "";
-  private static final String SET_BATH_URL = BASE_URL + "";
+  public static String BASE_URL = "";
 
   @Override
   public void getTemperatureAndHumidity(final GetTemperatureAndHumidityCallBack callBack) {
     new Thread(new Runnable() {
       @Override
       public void run() {
-        OkHttpUtils.get().url(TEMPERATURE_HUMIDITY_URL).build().execute(new StringCallback() {
+        OkHttpUtils.get().url(BASE_URL + "/arduino/temphum/13").build().execute(new StringCallback() {
+
+
           @Override
           public void onError(Call call, Exception e) {
 
@@ -45,7 +41,9 @@ public class HomeModelPresenterImpl implements HomeModelPresenter {
     new Thread(new Runnable() {
       @Override
       public void run() {
-        OkHttpUtils.get().url(BATH_BOOK_URL).build().execute(new StringCallback() {
+        OkHttpUtils.get().url(BASE_URL + "/arduino/bookbath/13").build().execute(new StringCallback() {
+
+
           @Override
           public void onError(Call call, Exception e) {
 
@@ -62,19 +60,34 @@ public class HomeModelPresenterImpl implements HomeModelPresenter {
 
   @Override
   public void setContainerLevel(int level) {
-    try {
-      OkHttpUtils.get().url(SET_CONTAINER_URL).build().execute();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    OkHttpUtils.get().url(BASE_URL + "/arduino/air/" + String.valueOf(level)).build().execute(new StringCallback() {
+
+
+      @Override
+      public void onError(Call call, Exception e) {
+
+      }
+
+      @Override
+      public void onResponse(String response) {
+
+      }
+    });
   }
 
   @Override
   public void setBathLevel(int level) {
-    try {
-      OkHttpUtils.get().url(SET_BATH_URL).build().execute();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    OkHttpUtils.get().url(BASE_URL + "/arduino/bathtub/" + String.valueOf(level)).build()
+            .execute(new StringCallback() {
+              @Override
+              public void onError(Call call, Exception e) {
+
+              }
+
+              @Override
+              public void onResponse(String response) {
+
+              }
+            });
   }
 }

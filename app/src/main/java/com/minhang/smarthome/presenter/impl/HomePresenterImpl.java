@@ -25,19 +25,24 @@ public class HomePresenterImpl implements HomePresenter {
             .GetTemperatureAndHumidityCallBack() {
       @Override
       public void getResult(String result) {
-        homeViewPresenter.setTemperature(getTemperatureFromResult(result));
-        homeViewPresenter.setHumidity(getHumidityFromResult(result));
+        homeViewPresenter.setTemperature(getTemperatureFromResult(parseResult(result)));
+        homeViewPresenter.setHumidity(getHumidityFromResult(parseResult(result)));
+        homeViewPresenter.setConditionerLevel(getConditionerLevelFromResult(parseResult(result)));
         homeViewPresenter.hideLoadingProgress();
       }
     });
   }
 
   private String getTemperatureFromResult(String result) {
-    return result.substring(3, 5);
+    return result.substring(2, 4);
   }
 
   private String getHumidityFromResult(String result) {
-    return result.substring(1, 3);
+    return result.substring(0, 2);
+  }
+
+  private int getConditionerLevelFromResult(String result) {
+    return Integer.valueOf(result.substring(4, 5));
   }
 
   @Override
@@ -45,58 +50,69 @@ public class HomePresenterImpl implements HomePresenter {
     homeModelPresenter.getBathAndBook(new HomeModelPresenter.GetBathAndBookCallBack() {
       @Override
       public void getResult(String result) {
-        homeViewPresenter.setBathLevel(getBathLevelFromResult(result));
-        homeViewPresenter.setLeftBook(getLeftBookFromResult(result));
-        homeViewPresenter.setRightBook(getRightBookFromResult(result));
+        if (getBathLevelFromResult(parseResult(result)) != -1) {
+          homeViewPresenter.setBathLevel(getBathLevelFromResult(parseResult(result)));
+          homeViewPresenter.hideBathNotStable();
+        } else {
+          homeViewPresenter.showBathNotStable();
+        }
+        homeViewPresenter.setLeftBook(getLeftBookFromResult(parseResult(result)));
+        homeViewPresenter.setRightBook(getRightBookFromResult(parseResult(result)));
         homeViewPresenter.hideLoadingProgress();
       }
     });
   }
 
+  private String parseResult(String result) {
+    return result;
+  }
+
   private int getBathLevelFromResult(String result) {
     int level = 0;
-    if (result.substring(5, 6).equals("1")) {
-      switch (result.substring(6, 8)) {
-        case "00":
+    if (result.substring(2, 3).equals("0")) {
+      switch (result.substring(3, 4)) {
+        case "0":
           level = 0;
           break;
-        case "01":
+        case "1":
           level = 1;
           break;
-        case "10":
+        case "2":
           level = 2;
           break;
-        case "11":
+        case "3":
           level = 3;
           break;
         default:
           break;
       }
+    } else {
+      level = -1;
     }
     return level;
   }
 
   private String getLeftBookFromResult(String result) {
-    return getBookFromResult(result.substring(1, 3));
+    return getBookFromResult(result.substring(0, 1));
   }
 
   private String getRightBookFromResult(String result) {
-    return getBookFromResult(result.substring(3, 5));
+    return getBookFromResult(result.substring(1, 2));
   }
 
   private String getBookFromResult(String result) {
     String temp = "";
     switch (result) {
-      case "00":
+      case "0":
         temp = "没有书";
         break;
-      case "01":
+      case "1":
         temp = "BOOK01";
         break;
-      case "10":
+      case "2":
         temp = "BOOK02";
         break;
-      case "11":
+      case "3":
         temp = "无法识别";
         break;
       default:

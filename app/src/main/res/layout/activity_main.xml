@@ -1,21 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout
-    android:id="@+id/refresh_layout"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#4D4D4D"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     >
 
+    <android.support.v7.widget.CardView
+        android:id="@+id/netPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="5dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:text="@string/confirm"
+                />
+            <EditText
+                android:id="@+id/etIpAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/btConfirm"
+                android:layout_toLeftOf="@id/btConfirm"
+                android:layout_marginLeft="5dp"
+                android:hint="@string/input_net_address"
+                />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+
     <LinearLayout
+        android:id="@+id/contentPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:visibility="gone"
         >
 
         <android.support.v7.widget.CardView
@@ -84,14 +126,21 @@
                     android:layout_alignParentRight="true"
                     />
 
+                <TextView
+                    android:id="@+id/tv_conditioner_level"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_conditioner_mode"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/conditioner_level"
+                    />
                 <SeekBar
                     android:id="@+id/sb_conditioner_level"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_conditioner_mode"
-                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/tv_conditioner_level"
                     android:max="3"
-                    android:visibility="gone"
                     />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
@@ -116,10 +165,27 @@
                 >
 
                 <TextView
+                    android:id="@+id/tv_bath_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/bath_mode"
+                    />
+
+                <Switch
+                    android:id="@+id/s_bath"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tv_bath_mode"
+                    android:layout_alignParentRight="true"
+                    />
+
+                <TextView
                     android:id="@+id/tv_yugang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
+                    android:layout_below="@id/s_bath"
                     android:text="@string/yugang_level"
                     />
 
@@ -129,6 +195,16 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_yugang"
                     android:max="3"
+                    />
+                <TextView
+                    android:id="@+id/tv_bath_stable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_below="@id/sb_bath_level"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:text="@string/bath_not_stable"
                     />
             </RelativeLayout>
 
@@ -188,4 +264,5 @@
         </android.support.v7.widget.CardView>
 
     </LinearLayout>
-</android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

@@ -6,4 +6,9 @@
     <string name="yugang_level">浴缸水位</string>
     <string name="left_book">左书架：</string>
     <string name="right_book">右书架：</string>
+    <string name="confirm">确定</string>
+    <string name="input_net_address">请输入ip地址</string>
+    <string name="conditioner_level">空调档位</string>
+    <string name="bath_mode">手动控制浴缸</string>
+    <string name="bath_not_stable">水位不稳定</string>
 </resources>

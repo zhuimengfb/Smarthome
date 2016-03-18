@@ -22,8 +22,21 @@ public interface HomeViewPresenter {
 
   void setConditionerAuto();
 
+  void setBathManual();
+
+  void setBathAuto();
+
   void showLoadingProgress();
 
   void hideLoadingProgress();
 
+  String getIpAddress();
+
+  void showContentPanel();
+
+  void hideIpAddressPanel();
+
+  void showBathNotStable();
+
+  void hideBathNotStable();
 }
